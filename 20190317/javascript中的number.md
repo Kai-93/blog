@@ -1,4 +1,4 @@
-# Number
+# javascript中的number
 
 javascript 不区分整数值和浮点值,所有数字都是浮点数值表示  
 javascript 采用 IEEE 754 标准定义的 64 位浮点格式表示数字
