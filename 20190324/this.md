@@ -1,6 +1,10 @@
-# <font size=7>[javascript 中的 this 机制](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)</font>
+# <font size=7>javascript 中的 this 机制</font>
 
-this:当前正在执行代码的 javascript 上下文对象
+this:当前正在执行代码的 javascript 上下文对象  
+this 完全取决于在 call-site 的调用方式  
+call-site: 在代码中,函数内调用的位置,而不是声明的位置,可借助调用栈找到 call-site
+
+## <font size=6 color=#d73a49>[1.MDN 上对 this 的解释](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this)</font>
 
 ## Global context - 全局上下文
 
@@ -18,7 +22,7 @@ console.log(window.b) // "MDN"
 console.log(b) // "MDN"
 ```
 
-## <font size=6> Function context - 函数上下文 </font>
+## Function context - 函数上下文
 
 ### <font size=5 color=#83d0f2 > 简单调用 </font>
 
@@ -325,4 +329,352 @@ demo2: 返回 windiw
 <button onclick="alert((function() { return this; })());">
   Show inner this
 </button>
+```
+
+## <font size=6 color=#d73a49>[2.你不知道的 javascript 中对 this 的解释](https://github.com/ZhaoKai-Kaiser/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch2.md)</font>
+
+在 你不知道的 javascript 中有如下四类规则:
+
+> - 默认绑定
+> - 隐式绑定
+> - 显式绑定
+> - new 绑定
+> - 软绑定
+
+### <font size=5 color=#83d0f2 > Default Binding - 默认绑定 </font>
+
+场景是发生在函数的独立调用,且没有其他绑定规则的应用时会使用默认绑定
+
+下面的代码片段就是发生了典型的默认绑定,为什么判定是默认绑定  
+因为 foo 函数是直接调用的,没有其他的操作,即没有其他的绑定规则应用在这里,故应用了默认绑定 this 指向 Global/window
+
+```javascript
+function foo() {
+  console.log(this.a)
+}
+
+var a = 2
+
+foo() // 2
+```
+
+若此时使用了 'use strict'(严格模式),this 将是 undefined
+
+```javascript
+function foo() {
+  'use strict'
+
+  console.log(this.a)
+}
+
+var a = 2
+
+foo() // TypeError: `this` is `undefined`
+```
+
+### <font size=5 color=#83d0f2 > Implicit Binding - 隐式绑定 </font>
+
+implicit binding - 隐式绑定: call-site 是否有上下文对象
+
+下面的代码,foo 是 obj 的一个方法,foo()调用时,使用了 obj 作为上下文,即 obj.foo(),故 foo 函数内部的 this 值为 obj
+
+```javascript
+function foo() {
+  console.log(this.a)
+}
+
+var obj = {
+  a: 2,
+  foo: foo
+}
+
+obj.foo() // 2
+```
+
+需要注意的是,在链式调用中,只有最近的对象才会影响 this,如下方代码
+
+```javascript
+function foo() {
+  console.log(this.a)
+}
+
+var obj2 = {
+  a: 42,
+  foo: foo
+}
+
+var obj1 = {
+  a: 2,
+  obj2: obj2
+}
+
+obj1.obj2.foo() // 42
+```
+
+在隐式绑定中有特殊的情况存在-<font color=red>绑定丢失</font>,如下方代码所示,obj.foo 并不是直接调用,而是声明了一个变量作为 obj.foo 的应用,实际上是 foo 函数的引用,此时 call-site 是 bar(),这只是一个函数的普通调用,不是各种装饰调用,故默认绑定将应用  
+doFoo(obj.foo)的表现也是如此,doFoo 函数内部会有一个 fn 作为函数 foo 的引用
+
+```javascript
+function foo() {
+  console.log(this.a)
+}
+
+function doFoo(fn) {
+  // `fn` is just another reference to `foo`
+
+  fn() // <-- call-site!
+}
+
+var obj = {
+  a: 2,
+  foo: foo
+}
+
+var bar = obj.foo // function reference/alias!
+
+var a = 'oops, global' // `a` also property on global object
+
+bar() // "oops, global"
+
+doFoo(obj.foo) // "oops, global"
+```
+
+### <font size=5 color=#83d0f2 > Explicit Binding - 显式绑定 </font>
+
+可以使用 Function.prototype.call,Function.prototype.apply 方法  
+这些方法将传入的第一个参数(一个对象),作为调用函数的 this,并执行函数,如下方代码所示
+如果第一个参数是原始类型的值(如 string,number 等),这类参数,将会被其类型对应的对象构造器重新创建对象,如 new String(),new Number()等  
+需要注意的是显式绑定同样没有解决绑定丢失的问题
+
+```javascript
+function foo() {
+  console.log(this.a)
+}
+
+var obj = {
+  a: 2
+}
+
+foo.call(obj) // 2
+```
+
+#### <font size=5 color=#83d0f2 > Hard Binding - 硬绑定 </font>
+
+如下图所示,在定义 bar 的手动调用了 foo.call(obj) 显示绑定 foo 的 this 为 obj,不管 bar 函数如何调用,foo 的 this 始终如一,故该方式称之为硬绑定  
+es6 中内置了硬绑定 Function.prototype.bind
+
+```javascript
+function foo() {
+  console.log(this.a)
+}
+
+var obj = {
+  a: 2
+}
+
+var bar = function() {
+  foo.call(obj)
+}
+
+bar() // 2
+setTimeout(bar, 100) // 2
+
+// `bar` hard binds `foo`'s `this` to `obj`
+// so that it cannot be overriden
+bar.call(window) // 2
+```
+
+硬绑定的实现
+
+```javascript
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+    if (typeof this !== 'function') {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError(
+        'Function.prototype.bind - what ' +
+          'is trying to be bound is not callable'
+      )
+    }
+
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+      fToBind = this,
+      fNOP = function() {},
+      fBound = function() {
+        // 提示是 function 的实例 且 oThis存在就返回修改 this 为 oThis的函数调用结果,反之返回函数的调用结果
+        return fToBind.apply(
+          this instanceof fNOP && oThis ? this : oThis,
+          aArgs.concat(Array.prototype.slice.call(arguments))
+        )
+      }
+    // 保存原函数的 prototype
+    fNOP.prototype = this.prototype
+    // 重新设置原型链
+    fBound.prototype = new fNOP()
+    return fBound
+  }
+}
+```
+
+### <font size=5 color=#83d0f2 > new Binding - new 绑定 </font>
+
+new 的时候做了如下四件事情:
+
+> 1.凭空创建了一个全新的对象  
+> 2.新对象与对象的原型链链接  
+> 3.新对象与该函数调用时的 this 绑定  
+> 4.除非函数 return 一个对象,否则将返回上面新创建的对象
+
+```javascript
+function foo(a) {
+  this.a = a
+}
+
+var bar = new foo(2)
+console.log(bar.a) // 2
+```
+
+### <font size=6 color=#83d0f2 > 优先级 </font>
+
+下方代码显示: 显式绑定 > 隐式绑定
+
+```javascript
+function foo() {
+  console.log(this.a)
+}
+
+var obj1 = {
+  a: 2,
+  foo: foo
+}
+
+var obj2 = {
+  a: 3,
+  foo: foo
+}
+
+obj1.foo() // 2
+obj2.foo() // 3
+
+obj1.foo.call(obj2) // 3
+obj2.foo.call(obj1) // 2
+```
+
+下方代码显示:new 绑定 > 隐式绑定  
+需要注意的是无法比较 new 绑定和显式绑定的优先级,原因是 new foo.call(obj1) 语法不被允许
+
+```javascript
+function foo(something) {
+  this.a = something
+}
+
+var obj1 = {
+  foo: foo
+}
+
+var obj2 = {}
+
+obj1.foo(2)
+console.log(obj1.a) // 2
+
+obj1.foo.call(obj2, 3)
+console.log(obj2.a) // 3
+
+var bar = new obj1.foo(4)
+console.log(obj1.a) // 2
+console.log(bar.a) // 4
+```
+
+虽然不能比较 new 绑定和显式绑定的优先级,但可以比较硬绑定与 new 绑定的优先级,如下方代码所示  
+foo.bind 硬绑定之后,obj1.a 值已经是 2 了,new bar(3) new 绑定,并没有改变 obj1.a 的值,而是返回了一个新对象 baz,且 baz.a 是 3
+
+```javascript
+function foo(something) {
+  this.a = something
+}
+
+var obj1 = {}
+
+var bar = foo.bind(obj1)
+bar(2)
+console.log(obj1.a) // 2
+
+var baz = new bar(3)
+console.log(obj1.a) // 2
+console.log(baz.a) // 3
+```
+
+new 创建了一个函数可以可以忽略 this 的硬绑定,但是硬绑定的其他参数将被当设置为新函数的预置参数,如下方代码
+
+```javascript
+function foo(p1, p2) {
+  this.val = p1 + p2
+}
+
+// using `null` here because we don't care about
+// the `this` hard-binding in this scenario, and
+// it will be overridden by the `new` call anyway!
+var bar = foo.bind(null, 'p1')
+
+var baz = new bar('p2')
+
+baz.val // p1p2
+```
+
+总结优先级:  
+ new 绑定 > 显式绑定(硬绑定) > 隐式绑定 > 默认绑定
+
+## <font size=6 color=#83d0f2 > 补充: </font>
+
+### <font size=6 color=#83d0f2 > 软绑定的实现 </font>
+
+软绑定:this 可以被手动绑定成别的,通过显式绑定,隐式绑定修改,若不修改则保持原状
+
+```javascript
+if (!Function.prototype.softBind) {
+  Function.prototype.softBind = function(obj) {
+    var fn = this,
+      curried = [].slice.call(arguments, 1),
+      bound = function bound() {
+        return fn.apply(
+          // this 不存在或 this 等于 window 或 this 等于 global 则 obj 反之 this
+          !this ||
+            (typeof window !== 'undefined' && this === window) ||
+            (typeof global !== 'undefined' && this === global)
+            ? obj
+            : this,
+          // 传参
+          curried.concat.apply(curried, arguments)
+        )
+      }
+    bound.prototype = Object.create(fn.prototype)
+    return bound
+  }
+}
+```
+
+### <font size=6 color=#83d0f2 > arrow function - 箭头函数 </font>
+
+箭头函数的 this 将绑定封闭的作用域(函数或全局)
+
+```javascript
+function foo() {
+  // return an arrow function
+  return a => {
+    // `this` here is lexically adopted from `foo()`
+    console.log(this.a)
+  }
+}
+
+var obj1 = {
+  a: 2
+}
+
+var obj2 = {
+  a: 3
+}
+
+var bar = foo.call(obj1)
+bar.call(obj2) // 2, not 3!
 ```
