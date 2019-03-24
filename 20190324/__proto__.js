@@ -16,6 +16,14 @@ console.log(
   A.__proto__ === Function.prototype
 )
 console.log(
+  'A.__proto__.__proto__ === Object.prototype: ',
+  A.__proto__.__proto__ === Object.prototype
+)
+console.log(
+  'A.__proto__.__proto__.__proto__ === null: ',
+  A.__proto__.__proto__.__proto__ === null
+)
+console.log(
   'Function.__proto__ === Function.prototype: ',
   Function.__proto__ === Function.prototype
 )
