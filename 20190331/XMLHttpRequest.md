@@ -1,4 +1,4 @@
-# <font size=7>Ajax</font>
+# <font size=7>Ajax - XMLHttpRequest</font>
 
 Ajax = Asynchronous JavaScript + XML,本身并不是技术,而是组合已有技术而成,其中主要的技术是 XMLHttpRequest object.
 
@@ -145,9 +145,3 @@ XMLHttpRequest.DONE = 4 请求已完成
 #### <font size=4>[progress](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/progress_event)</font>
 
 当接收到新的数据时将触发该方法,该方法可以监控到请求的进度
-
-## <font size=6>[Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)</font>
-
-Fetch与XMLHttpRequest相类似
-
-## <font size=6>[Guides](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)</font>
