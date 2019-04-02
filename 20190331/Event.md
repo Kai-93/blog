@@ -38,6 +38,6 @@ Then it moves on to the next immediate ancestor element and does the same thing,
 
 In modern browsers, by default, all event handlers are registered in the bubbling phase.
 
-#### <font size=3>使用 event.stopPropagation() 来修复该问题</font>
+#### <font size=3>使用 event.stopPropagation() 来阻止冒泡</font>
 
 #### <font size=3>事件委托</font>
