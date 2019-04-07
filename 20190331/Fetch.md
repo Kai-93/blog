@@ -1,4 +1,4 @@
-# <font size=6>[Ajax - Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)</font>
+# <font size=7>[Ajax - Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)</font>
 
 Fetch 与 XMLHttpRequest 类似,但其更易使用,更强大,更灵活
 
