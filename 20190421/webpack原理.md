@@ -9,8 +9,6 @@ webpack的配置(webpack.config.js)中有四个核心概念需要理解:
 > - loader
 > - 插件(plugins)
 
-然后再来了解一些webpack打包的基本逻辑
-
 ## <font size=6>入口(entry)</font>
 
 entry属性将告诉webpack从哪个模块开始构建依赖图,并计算出所有这个模块直接或间接依赖的模块.
@@ -290,7 +288,7 @@ body {
 }
 ```
 
-> 打包之后的文件
+> webpack.config.js
 
 ```JavaScript
 // webpack.config.js
@@ -334,6 +332,7 @@ module.exports = {
   }
 }
 ```
+> 打包之后的文件
 
 ```javascript
 ;(function(modules) {
@@ -448,7 +447,6 @@ module.exports = {
   __webpack_require__.p = ''
   //  ----- 对主逻辑不重要的代码 - ending -----
   // Load entry module and return exports
-  debugger
   //  debugger1 - 逻辑从这里开始 
   // __webpack_require__ 即 require 函数
   // 并设置了入口函数的key, moduleId = './src/index.js'
