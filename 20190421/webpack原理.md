@@ -518,3 +518,33 @@ module.exports = {
 })
 
 ```
+## <font size=6>编写简单的plugins</font>
+
+> 一个最基础的 Plugin 的代码是这样的：
+
+```JavaScript
+class BasicPlugin{
+  // 在构造函数中获取用户给该插件传入的配置
+  constructor(options){
+  }
+
+  // Webpack 会调用 BasicPlugin 实例的 apply 方法给插件实例传入 compiler 对象
+  apply(compiler){
+    compiler.plugin('compilation',function(compilation) {
+    })
+  }
+}
+
+// 导出 Plugin
+module.exports = BasicPlugin;
+```
+> 在使用这个 Plugin 时，相关配置代码如下：
+
+```JavaScript
+const BasicPlugin = require('./BasicPlugin.js');
+module.export = {
+  plugins:[
+    new BasicPlugin(options),
+  ]
+}
+```
