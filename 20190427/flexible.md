@@ -124,3 +124,27 @@ window.devicePixelRatio返回当前显示设备下物理像素与设备独立像
 然后给root元素设置fontSize为document.documentElement.clientWidth的十分之一，这样1rem就等于document.documentElement.clientWidth/10,以此做适配。
 
 rem并非是完美的适配方案，使用了rem，最后渲染时还是转换成px，这时小数部分就四舍五入，有些结果并不是我们想要的。
+
+## <font size=6>meta viewport</font>
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+```
+
+meta标签中的viewport作用是什么呢？
+
+viewport，在浏览器环境中，表示当前的浏览器的可视区域，正在被浏览的页面，在这块区域中被展示。
+
+viewport，设置了viewport的初始尺寸，仅可使用在移动端。
+
+
+|      值       |        可能的子值         |                                           描述                                            |
+| :-----------: | :-----------------------: | :---------------------------------------------------------------------------------------: |
+|     width     |   整数 或 device-width    |                             定义viewport的宽度，用于展示网页                              |
+|    height     |   整数 or device-height   |                         定义viewport的高度，但几乎未被浏览器使用                          |
+| initial-scale | 一个大于0.0小于10.0的数字 |                              定义了设备尺寸与viewport的比例                               |
+| maximum-scale | 一个大于0.0小于10.0的数字 | 定义了可以放大的最大值，大于等于minimum-scale，且浏览器的设置可以忽略它，iOS10+默认忽略它 |
+| minimum-scale | 一个大于0.0小于10.0的数字 | 定义了可以缩小的最小值，小于等于maximum-scale，且浏览器的设置可以忽略它，iOS10+默认忽略它 |
+| user-scalable |         yes 或 no         |      no，用户不能缩放；yes，用户可以缩放，但浏览器的设置可以忽略它，iOS10+默认忽略它      |
+
+
