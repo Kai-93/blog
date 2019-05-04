@@ -116,7 +116,7 @@ window.devicePixelRatio返回当前显示设备下物理像素与设备独立像
 
 #### <font size=4>总结</font>
 
-首先通过设置meta，其主要作用的是width=device-width，使用这个之后，document.documentElement.clientWidth就等于设备独立像素的宽度。
+首先通过设置meta，其主要作用的是width=device-width，使用这个之后，document.documentElement.clientWidth就等于设备独立像素的宽度，这样能保证不会出现横向滚动条。
 
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
