@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>V8 GC DEMO</title>
+  </head>
+  <body></body>
+  <script>
+    let count = 0;
+    function get(dom, flag = 0) {
+      Array(100)
+        .fill(1)
+        .forEach(() => {
+          const $dom = document.createElement("div");
+          if (flag === 0) {
+            get($dom, 1);
+          } else {
+            $dom.innerText = "这是测试GC的代码" + count++;
+          }
+          dom.appendChild($dom);
+        });
+      return dom;
+    }
+    d = document.createElement("div");
+    d.id = "haha";
+    get(d);
+    get(d);
+    get(d);
+    document.body.appendChild(d);
+  </script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      .bfc{
+        overflow: hidden;
+      }
+      .box{
+        border: 1px solid red;
+      }
+      .inner{
+        float: left;
+        width: 100px;
+        height: 100px;
+        background: green;
+      }
+      .inner-box{
+        width: 200px;
+        height: 200px;
+        background: blue;
+      }
+      .margin{
+        width: 100px;
+        height: 100px;
+        background: greenyellow;
+        margin: 10px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <p>清除浮动，撑起父类</p>
+    <div class="box"">
+      <p class="inner"></p>
+    </div>
+    <div class="box bfc"">
+      <p class="inner"></p>
+    </div>
+    <p>触发bfc特性，清除浮动</p>
+    <div class="box"">
+      <p class="inner"></p>
+      <div class="inner-box"></div>
+    </div>
+    <div class="box"">
+      <p class="inner"></p>
+      <div class="inner-box bfc"></div>
+    </div>
+    <p>触发bfc特性，取消margin-bottom的重叠</p>
+    <div class="margin"></div>
+    <div class="margin"></div>
+    <div class="bfc">
+      <div class="margin"></div>
+    </div>
+    <div class="bfc">
+      <div class="margin"></div>
+    </div>
+  </body>
+</html>
