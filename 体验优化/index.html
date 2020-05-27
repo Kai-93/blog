@@ -1,0 +1,38 @@
+<!--
+ * @Author: Kaiser
+ * @Date: 2020-05-19 21:10:00
+ * @Last Modified by: Kaiser
+ * @Last Modified time: 2020-05-27 13:56:18
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">console</button>
+  </body>
+  <script>
+    // window.arr = [];
+    (function test() {
+      let obj = { arr: [] };
+      let count = 1000000;
+      Array(count)
+        .fill(1)
+        .forEach((el, index) => {
+          obj.arr.push({ index, el });
+        });
+      // window.ws = new WeakSet();
+
+      // ws.add(obj);
+      // document.querySelector('#button').addEventListener('click', () => {
+      //   console.log(ws.has(obj));
+      //   obj = null;
+      // });
+      // setTimeout(() => {
+      //   console.log(JSON.stringify(obj));
+      // });
+    })();
+  </script>
+</html>
