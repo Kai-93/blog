@@ -1,0 +1,62 @@
+<!--
+ * @Author: Kaiser
+ * @Date: 2021-04-10 17:58:14
+ * @Last Modified by: Kaiser
+ * @Last Modified time: 2021-04-10 21:58:07
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>测试发起简单,复杂请求时后端的接收情况</title>
+  </head>
+  <body>
+    这是简单请求:
+    <p id="easy"></p>
+    <br />
+    这是复杂请求:
+    <p id="hard"></p>
+  </body>
+  <script>
+    fetch('http://localhost:3000/easy').then((response) => {
+      console.log(response);
+      const reader = response.body.getReader();
+      let result = '';
+      const utf8Decoder = new TextDecoder('utf-8');
+      reader.read().then(function processText({ done, value }) {
+        if (done) {
+          document.querySelector('#easy').innerText = result;
+          return;
+        }
+        result += value ? utf8Decoder.decode(value, { stream: true }) : '';
+        // Read some more, and call this function again
+        return reader.read().then(processText);
+      });
+    });
+  </script>
+  <script>
+    fetch('http://localhost:3000/hard', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      console.log(response);
+      const reader = response.body.getReader();
+      let result = '';
+      const utf8Decoder = new TextDecoder('utf-8');
+      reader.read().then(function processText({ done, value }) {
+        if (done) {
+          document.querySelector('#hard').innerText = result;
+          return;
+        }
+        result += value ? utf8Decoder.decode(value, { stream: true }) : '';
+        // Read some more, and call this function again
+        return reader.read().then(processText);
+      });
+    });
+  </script>
+</html>

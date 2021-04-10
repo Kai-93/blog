@@ -1,0 +1,60 @@
+<!--
+ * @Author: Kaiser
+ * @Date: 2020-04-22 20:38:31
+ * @Last Modified by: Kaiser
+ * @Last Modified time: 2020-04-23 09:56:34
+ * @Description: 
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    (function () {
+      var flag = 996;
+      function person(fg) {
+        // 有o代替this返回了
+        // let o = new Object();
+        // o.flag = fg;
+        // o.getval = () => {
+        //   console.log('箭头函数: ', this);
+        //   console.log('this是否等于pp: ', this === pp);
+        // };
+        // return o;
+        // 返回this
+        this.flag = fg;
+        this.getval = () => {
+          console.log('箭头函数: ', this);
+          console.log('this是否等于pp: ', this === pp);
+        };
+      }
+      var pp = new person('251');
+      pp.getval();
+    })();
+    (function () {
+      var flag = 996;
+      function person(fg) {
+        // 有o代替this返回了
+        // let o = new Object();
+        // o.flag = fg;
+        // o.getval = function () {
+        //   console.log('function: ', this);
+        //   console.log('this是否等于pp: ', this === pp);
+        // };
+        // return o;
+        // 返回this
+        this.flag = fg;
+        this.getval = function () {
+          console.log('function: ', this);
+          console.log('this是否等于pp: ', this === pp);
+        };
+      }
+      var pp = new person('251');
+      pp.getval();
+    })();
+  </script>
+</html>
