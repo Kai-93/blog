@@ -1,3 +1,10 @@
+<!--
+ * @Author: Kaiser
+ * @Date: 2020-03-03 14:39:02
+ * @Last Modified by: Kaiser
+ * @Last Modified time: 2021-04-14 13:54:16
+ * @Description: 
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,12 +17,13 @@
         padding: 0;
       }
       .bfc{
+        /* display: flow-root; */
         overflow: hidden;
       }
       .box{
         border: 1px solid red;
       }
-      .inner{
+      .float{
         float: left;
         width: 100px;
         height: 100px;
@@ -36,25 +44,35 @@
     </style>
   </head>
   <body>
-    <p>清除浮动，撑起父类</p>
+    <p>1/BFC的盒子计算高度时,即使子元素是浮动会将计算在内</p>
+    <p>a)父元素坍塌</p>
     <div class="box"">
-      <p class="inner"></p>
+      <p class="float"></p>
     </div>
+    <p style="margin-top: 100px;">b)父元素被子元素撑起</p>
     <div class="box bfc"">
-      <p class="inner"></p>
+      <p class="float"></p>
     </div>
-    <p>触发bfc特性，清除浮动</p>
+    <br>
+    
+    <p>2/BFC的盒子将不与浮动元素重叠</p>
+    <p>a)两个盒子重叠了</p>
     <div class="box"">
-      <p class="inner"></p>
+      <p class="float"></p>
       <div class="inner-box"></div>
     </div>
+    <p>b)两个盒子不重叠了</p>
     <div class="box"">
-      <p class="inner"></p>
+      <p class="float"></p>
       <div class="inner-box bfc"></div>
     </div>
-    <p>触发bfc特性，取消margin-bottom的重叠</p>
+    <br>
+
+    <p>3/block的盒子垂直的margin会坍塌, 除非新建bfc包含子元素的margin</p>
+    <p>a)垂直的margin坍塌</p>
     <div class="margin"></div>
     <div class="margin"></div>
+    <p>b)垂直的margin撑起</p>
     <div class="bfc">
       <div class="margin"></div>
     </div>
