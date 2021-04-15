@@ -2,33 +2,25 @@
  * @Author: Kaiser
  * @Date: 2019-11-28 23:04:40
  * @Last Modified by: Kaiser
- * @Last Modified time: 2019-11-29 09:20:11
+ * @Last Modified time: 2021-04-15 15:15:57
  * @Description:
  */
+const { check } = require('./check');
 
-const utils = require("../../utils/utils.js");
-
-function Parent() {
-  this.name = "parent";
-}
-Parent.prototype.say = function() {
-  console.log(`Hello ${this.name}`);
-};
-
-function Child() {
-  Parent.call(this);
-  this.type = "child";
+function Parent(name) {
+  this.name = name;
+  this.type = 'parent';
+  this.say = function () {
+    console.log(`Hello ${this.name}`);
+  };
 }
 
-var child = new Child();
+function Child(name) {
+  // call时将this以指针传入, Parent调用时修改了this的属性, 即继承了Parent
+  Parent.call(this, name);
+  this.type = 'child';
+}
 
-console.log("var child = new Child(), child:\n", child);
-utils.drawDividingLine();
-console.log("child.constructor: \n", child.constructor);
-utils.drawDividingLine();
-console.log(
-  "child.__proto__ === Child: \n",
-  child.__proto__ === Child.prototype
-);
-utils.drawDividingLine();
-console.log("child.say(): \n", child.say());
+var child = new Child('Kaiser');
+
+check(child, Child);

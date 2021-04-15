@@ -8,9 +8,20 @@
   </head>
   <body></body>
   <script type="text/javascript">
-    console.log('global', a);
-    (function () {
-      console.log('local', a);
-    })();
+    function SuperType(name) {
+      this.name = name;
+
+      this.sayName = function () {
+        console.log(this.name);
+      };
+    }
+
+    function SubType(name, age) {
+      SuperType.call(this, name); //在这里借用了父类的构造函数
+
+      this.age = age;
+    }
+
+    new SubType('Kaiser', 28).sayName();
   </script>
 </html>
