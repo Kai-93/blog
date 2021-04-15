@@ -2,7 +2,7 @@
  * @Author: Kaiser
  * @Date: 2020-04-09 17:21:07
  * @Last Modified by: Kaiser
- * @Last Modified time: 2020-04-09 17:33:50
+ * @Last Modified time: 2021-04-14 17:09:34
  * @Description: 在浏览器环境下运行
  */
 function Foo() {
@@ -31,6 +31,9 @@ var getName = function () {
 function getName() {
   console.log(5);
 }
+
+
+// 一下是答案
 Foo.getName(); // 2
 getName(); // 4
 // console.log(Foo()); // window
