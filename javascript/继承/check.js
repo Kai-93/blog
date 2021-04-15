@@ -2,7 +2,7 @@
  * @Author: Kaiser
  * @Date: 2021-04-15 13:08:14
  * @Last Modified by: Kaiser
- * @Last Modified time: 2021-04-15 13:10:32
+ * @Last Modified time: 2021-04-15 15:29:15
  * @Description:
  */
 
@@ -13,6 +13,7 @@ function check(child, Child) {
     'child.__proto__ === Child.prototype: ',
     child.__proto__ === Child.prototype,
   );
+  console.log(`Is child a Child's instance: `, child instanceof Child);
   console.log('child.say(): ');
   child.say();
 }

@@ -2,7 +2,7 @@
  * @Author: Kaiser
  * @Date: 2019-11-28 23:04:40
  * @Last Modified by: Kaiser
- * @Last Modified time: 2021-04-15 15:18:21
+ * @Last Modified time: 2021-04-15 15:25:23
  * @Description:
  */
 const { check } = require('./check');
@@ -25,3 +25,4 @@ class Child extends Parent {
 var child = new Child('Kaiser');
 
 check(child, Child);
+
