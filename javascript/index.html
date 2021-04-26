@@ -5,23 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background: green;
+      }
+      .btn {
+        display: inline-block;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        padding: 10px 20px;
+        border: 1px dotted black;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <div class="box"></div>
+    <div class="btn btn-1">change the width of the box by width</div>
+    <div class="btn btn-2">change the width of the box by transform</div>
+  </body>
   <script type="text/javascript">
-    function SuperType(name) {
-      this.name = name;
-
-      this.sayName = function () {
-        console.log(this.name);
-      };
-    }
-
-    function SubType(name, age) {
-      SuperType.call(this, name); //在这里借用了父类的构造函数
-
-      this.age = age;
-    }
-
-    new SubType('Kaiser', 28).sayName();
+    const btn1 = document.querySelector('.btn-1');
+    const btn2 = document.querySelector('.btn-2');
+    let angle = 0;
+    let width = 100;
+    btn1.addEventListener('click', function changeWidthOfBoxByWidth() {
+      const box = document.querySelector('.box');
+      width += 10;
+      box.style.height = `${width}px`;
+    });
+    btn2.addEventListener('click', function changeWidthOfBoxByTransform() {
+      const box = document.querySelector('.box');
+      angle += 45;
+      box.style.transform = `rotate(${angle}deg)`;
+    });
   </script>
 </html>

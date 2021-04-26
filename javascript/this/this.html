@@ -2,7 +2,7 @@
  * @Author: Kaiser
  * @Date: 2020-04-22 20:38:31
  * @Last Modified by: Kaiser
- * @Last Modified time: 2020-04-23 09:56:34
+ * @Last Modified time: 2021-04-21 07:02:30
  * @Description: 
  -->
 <!DOCTYPE html>
@@ -14,30 +14,31 @@
   </head>
   <body></body>
   <script>
+    // (function () {
+    //   var flag = 996;
+    //   function person(fg) {
+    //     // 有o代替this返回了
+    //     // let o = new Object();
+    //     // o.flag = fg;
+    //     // o.getval = () => {
+    //     //   console.log('箭头函数: ', this);
+    //     //   console.log('this是否等于pp: ', this === pp);
+    //     // };
+    //     // return o;
+    //     this.getval = () => {
+    //       console.log('箭头函数: ', this, pp);
+    //       console.log('this是否等于pp: ', this === pp);
+    //     };
+    //     // 返回this
+    //     this.flag = fg;
+    //   }
+
+    //   var pp = new person('250');
+    //   pp.getval();
+    // })();
     (function () {
       var flag = 996;
-      function person(fg) {
-        // 有o代替this返回了
-        // let o = new Object();
-        // o.flag = fg;
-        // o.getval = () => {
-        //   console.log('箭头函数: ', this);
-        //   console.log('this是否等于pp: ', this === pp);
-        // };
-        // return o;
-        // 返回this
-        this.flag = fg;
-        this.getval = () => {
-          console.log('箭头函数: ', this);
-          console.log('this是否等于pp: ', this === pp);
-        };
-      }
-      var pp = new person('251');
-      pp.getval();
-    })();
-    (function () {
-      var flag = 996;
-      function person(fg) {
+      function Person(fg) {
         // 有o代替this返回了
         // let o = new Object();
         // o.flag = fg;
@@ -46,14 +47,19 @@
         //   console.log('this是否等于pp: ', this === pp);
         // };
         // return o;
+        // this.getval = () => {
+        //   console.log('箭头函数: ', this, pp);
+        //   console.log('this是否等于pp: ', this === pp);
+        // };
         // 返回this
         this.flag = fg;
-        this.getval = function () {
-          console.log('function: ', this);
-          console.log('this是否等于pp: ', this === pp);
-        };
       }
-      var pp = new person('251');
+      Person.prototype.getval = function () {
+        console.log('普通函数: ', this);
+        console.log('普通函数: ', this.flag);
+        console.log('this是否等于pp: ', this === pp);
+      };
+      var pp = new Person('251');
       pp.getval();
     })();
   </script>
