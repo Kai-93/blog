@@ -2,7 +2,7 @@
  * @Author: Kaiser
  * @Date: 2020-04-22 20:38:31
  * @Last Modified by: Kaiser
- * @Last Modified time: 2021-04-21 07:02:30
+ * @Last Modified time: 2021-04-28 21:28:29
  * @Description: 
  -->
 <!DOCTYPE html>
@@ -36,31 +36,40 @@
     //   var pp = new person('250');
     //   pp.getval();
     // })();
-    (function () {
-      var flag = 996;
-      function Person(fg) {
-        // 有o代替this返回了
-        // let o = new Object();
-        // o.flag = fg;
-        // o.getval = function () {
-        //   console.log('function: ', this);
-        //   console.log('this是否等于pp: ', this === pp);
-        // };
-        // return o;
-        // this.getval = () => {
-        //   console.log('箭头函数: ', this, pp);
-        //   console.log('this是否等于pp: ', this === pp);
-        // };
-        // 返回this
-        this.flag = fg;
+    // (function () {
+    //   var flag = 996;
+    //   function Person(fg) {
+    //     // 有o代替this返回了
+    //     // let o = new Object();
+    //     // o.flag = fg;
+    //     // o.getval = function () {
+    //     //   console.log('function: ', this);
+    //     //   console.log('this是否等于pp: ', this === pp);
+    //     // };
+    //     // return o;
+    //     // this.getval = () => {
+    //     //   console.log('箭头函数: ', this, pp);
+    //     //   console.log('this是否等于pp: ', this === pp);
+    //     // };
+    //     // 返回this
+    //     this.flag = fg;
+    //   }
+    //   Person.prototype.getval = function () {
+    //     console.log('普通函数: ', this);
+    //     console.log('普通函数: ', this.flag);
+    //     console.log('this是否等于pp: ', this === pp);
+    //   };
+    //   var pp = new Person('251');
+    //   pp.getval();
+    // })();
+
+    function a() {
+      function b() {
+        console.log(this);
       }
-      Person.prototype.getval = function () {
-        console.log('普通函数: ', this);
-        console.log('普通函数: ', this.flag);
-        console.log('this是否等于pp: ', this === pp);
-      };
-      var pp = new Person('251');
-      pp.getval();
-    })();
+      // a.b = b;
+      b();
+    }
+    a();
   </script>
 </html>

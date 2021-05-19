@@ -1,0 +1,26 @@
+<!--
+ * @Author: Kaiser
+ * @Date: 2021-05-19 17:40:43
+ * @Last Modified by: Kaiser
+ * @Last Modified time: 2021-05-19 19:35:45
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    click here
+  </body>
+  <script>
+    let p = document.createElement('p');
+    Promise.resolve().then(() => console.log('end'));
+    p.onclick = () => console.log('clicked');
+    p.click();
+    console.log('after')
+  </script>
+</html>

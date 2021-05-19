@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      #demo {
+        width: 0px;
+        height: 0px;
+        border-top: 10px solid red;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="demo"></div>
+    <div id="app">
+      <p @click="change">{{ a }}</p>
+      <p v-directive>{{ title }}</p>
+      <p :title="message">鼠标悬停几秒钟查看此处动态绑定的提示信息！</p>
+      <p @click="click">点击这里</p>
+      <child-a :attr="arr" :parent="name" @test="click"></child-a>
+
+      <span
+        v-for="(obj,index) in arr"
+        :key="obj.name"
+        :style="{color: obj.color}"
+        >{{obj.name}}</span
+      >
+    </div>
+  </body>
+  <script src="./vue.js"></script>
+  <script type="text/x-template" id="child-a"></script>
+  <script>
+    Vue.component('child-a', {
+      template: '#child-a',
+      name: 'child-a',
+      props: {
+        parent: {
+          type: String,
+          required: true,
+          default() {
+            return null;
+          },
+        },
+      },
+      data() {
+        return {
+          title: '我的名字是',
+          lastName: '赵',
+          firstName: '凯',
+          tip: '',
+        };
+      },
+      computed: {
+        name: {
+          get() {
+            return this.firstName + this.lastName;
+          },
+        },
+      },
+      watch: {
+        firstName: function () {
+          this.tip = '名字被修改了';
+        },
+      },
+      methods: {
+        clickHandler() {
+          this.firstName = 'Kaiser';
+          console.log('子组件被点击了');
+        },
+      },
+      beforeCreate() {
+        console.log('子组件的beforeCreate');
+      },
+      render: function (createElement) {
+        return createElement(
+          'h1',
+          {
+            on: {
+              click: this.clickHandler,
+            },
+          },
+          `${this.parent} / ${this.title}: ${this.name} ${
+            this.tip ? `(${this.tip})` : ''
+          }`
+        );
+      },
+    });
+    Vue.directive('directive', {
+      bind: function (el, binding, vnode) {
+        console.log('directive: ', el, binding, vnode);
+      },
+    });
+    var app = new Vue({
+      el: '#app',
+      data: {
+        name: 'App',
+        title: 'Hello Vue!',
+        message: '页面加载于 ' + new Date().toLocaleString(),
+        obj: {
+          obj: {
+            value: 1,
+          },
+        },
+        arr: [
+          { name: 'red', color: 'red' },
+          { name: 'green', color: 'green' },
+          { name: 'blue', color: 'blue' },
+        ],
+      },
+      computed: {
+        a: {
+          get() {
+            return `${this.name}: ${this.title}`;
+          },
+          cache: false,
+        },
+      },
+      watch: {
+        name: {
+          handler: function () {
+            console.log('名字修改了');
+          },
+        },
+        obj: {
+          handler: function () {
+            console.log('obj changed');
+          },
+          deep: true,
+        },
+      },
+      beforeCreate() {
+        console.log(this);
+      },
+      created() {
+        console.log(this);
+      },
+      // render: function (createElement) {
+      //   return createElement('h1', `app has render funcition`);
+      // },
+      methods: {
+        click() {
+          console.log('父组件被点击了');
+          this.arr.splice(0, 1);
+        },
+        change() {
+          this.count = this.count || 0;
+          this.count++;
+          this.name = `App(${this.count})`;
+          this.obj.obj.value = 2;
+        },
+      },
+    });
+    var child = app.$children[0];
+  </script>
+</html>
